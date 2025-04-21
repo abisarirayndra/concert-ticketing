@@ -62,7 +62,7 @@ class CategoryController extends Controller
 
     public function getData(Request $request){
         if ($request->ajax()) {
-            $data = CategoryModel::query(); 
+            $data = CategoryModel::query()->orderBy('created_at', 'desc'); 
             return DataTables::of($data)->make(true);
         }
     }
@@ -79,5 +79,11 @@ class CategoryController extends Controller
         return response()->json([
             'error' => 'Data not found'
         ], 404);
+    }
+
+    public function list()
+    {
+        $data = CategoryModel::select('category_id AS id','category_name AS text')->orderBy('category_name', 'asc')->get();
+        return response()->json($data);
     }
 }

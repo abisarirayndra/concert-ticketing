@@ -7,7 +7,7 @@ function init_table(){
     $('#table-categories').DataTable({
         processing: true,
         serverSide: true,
-        ajax: URLgetData,  // menggunakan GET, jadi cukup URL
+        ajax: URLgetData,
         columns: [
             {
                 data: null,
