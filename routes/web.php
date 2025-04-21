@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,4 +29,10 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth', 'role:1'])->group(function () {
     Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/categories', [CategoryController::class, 'index'])->name('admin.categories');
+    Route::post('/admin/categories/save', [CategoryController::class, 'save'])->name('admin.categories.save');
+    Route::get('/admin/categories/getData', [CategoryController::class, 'getData'])->name('admin.categories.getdata');
+    Route::post('/admin/categories/read', [CategoryController::class, 'read'])->name('admin.categories.read');
+    Route::post('/admin/categories/destroy', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
+    
 });
