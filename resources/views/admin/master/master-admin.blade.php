@@ -45,12 +45,12 @@
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Core</div>
                             <a class="nav-link" href="index.html">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                                 Dashboard
                             </a>                          
                             <div class="sb-sidenav-menu-heading">Concert Management</div>
                             <a class="nav-link" href="{{route('admin.categories')}}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-table-list"></i></div>
                                 Categories
                             </a>
                             <a class="nav-link" href="tables.html">
@@ -86,6 +86,7 @@
         <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
         <script src="{{asset('js/scripts.js')}}"></script>
         @yield('js')
+        @stack('scripts')
 
     </body>
 </html>
