@@ -162,7 +162,7 @@
     </div>
 
     <div class="modal fade" id="modal-detail-concert" tabindex="-1" aria-labelledby="modal-detail-concertLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal-detail-concertLabel">Concert Details</h5>
@@ -224,6 +224,34 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modal-detail-ticket" tabindex="-1" aria-labelledby="modal-detail-ticketLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-detail-ticketLabel">Concert Ticket Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table id="table-ticket" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Code</th>
+                                <th>Status</th>
+                                <th>User</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                    
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @push('scripts')
@@ -235,6 +263,8 @@
         const csrf = '{{ csrf_token() }}';
         const asset = '{{ asset("uploads/concerts/")}}';
         const URLdestroy = '{{ route("admin.concert.destroy") }}';
+        const URLgetDataTicket = '{{ route("admin.concert.getdataticket") }}';
+        
     </script>
     <script src="{{ asset('js/admin/concerts.js') }}"></script> {{-- JavaScript utama --}}
 @endpush
