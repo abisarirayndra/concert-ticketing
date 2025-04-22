@@ -17,15 +17,6 @@
 @endsection
 
 @push('scripts')
-    {{-- <script>
-        const URLgetData = '{{ route("admin.concert.getdata") }}';
-        const URLsave = '{{ route("admin.concert.save") }}';
-        const URLcategoryList = '{{ route("admin.categories.list") }}';
-        const URLread = '{{ route("admin.concert.read") }}';
-        
-        const asset = '{{ asset("uploads/concerts/")}}';
-        const URLdestroy = '{{ route("admin.concert.destroy") }}';
-    </script> --}}
     <script>
         const URLgetData = '{{ route("user.tickets.getdata") }}';
         const URLcheckTicket = '{{ route("user.tickets.checkTicket") }}';

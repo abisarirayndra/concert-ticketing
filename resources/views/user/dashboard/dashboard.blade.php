@@ -52,15 +52,6 @@
 @endsection
 
 @push('scripts')
-    {{-- <script>
-        const URLgetDataHistory = '{{ route("user.tickets.getdatahistory") }}';
-        const URLcheckTicket = '{{ route("user.tickets.checkTicket") }}';
-        const URLprocess = '{{ route("user.tickets.process") }}';
-        const asset = '{{ asset("uploads/concerts/")}}';
-        const bannerDefault = '{{ asset("assets/default_banner.jpg")}}';
-        const user_id = '{{ Auth::user()->user_id }}';
-        const csrf = '{{ csrf_token() }}';
-    </script> --}}
     <script>
         const asset = '{{ asset("uploads/concerts/")}}';
         const bannerDefault = '{{ asset("assets/default_banner.jpg")}}';
