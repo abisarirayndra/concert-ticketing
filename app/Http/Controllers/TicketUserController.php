@@ -1,0 +1,151 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\View\ConcertViewModel;
+use App\Models\View\TicketViewModel;
+use App\Models\TicketModel;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+use App\Models\ConcertModel;
+use Illuminate\Support\Facades\File;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Barryvdh\DomPDF\Facade\Pdf;
+
+class TicketUserController extends Controller
+{
+    public function index(){
+        return view('user.tickets.index');
+    }
+
+    public function getData(Request $request){
+        $data = ConcertViewModel::orderBy('concert_date', 'desc')->get();
+        return response()->json([
+            'success' => true,
+            'data' => $data,
+        ], 200);
+    }
+
+    public function checkTicket(Request $request){
+        $where = [
+            'ticket_concert_id' => $request->concert_id,
+            'ticket_user_id' => $request->user_id,
+        ];
+
+        $data = TicketViewModel::where($where)->first();
+
+        if ($data) {
+            return response()->json([
+                'success' => true,
+                'data' => $data,
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+            ]);
+        }
+    }
+
+    public function process(Request $request){
+        if($request->command == "book") $this->book($request);
+        else if($request->command == "redeem") $this->redeem($request);
+    }
+
+    function book(Request $request){
+        $concert = ConcertModel::find($request->concert_id);
+        if($concert->concert_remaining_quota == 0){
+            return response()->json([
+                'success' => false,
+                'message' => 'Ticket Full Booked!',
+            ], 201);
+        }else{
+            $data_concert['concert_remaining_quota'] = $concert->concert_remaining_quota - 1;
+            $concert->update($data_concert);
+            
+            $data['ticket_concert_id'] = $request->concert_id;
+            $data['ticket_user_id'] = Auth::user()->user_id;
+            $data['ticket_code'] = Str::upper(Str::random(5));
+            $data['ticket_redeem'] = 0;
+    
+            $ticket = TicketModel::create($data);
+    
+            return response()->json([
+                'success' => true,
+                'message' => 'Ticket Booked!',
+                'data' => $ticket,
+            ], 201);
+        }
+        
+    }
+
+    public function redeem(Request $request)
+    {
+        $ticket = TicketViewModel::where([
+            'ticket_concert_id' => $request->concert_id,
+            'ticket_user_id'    => $request->user_id,
+        ])->firstOrFail();
+
+        // Siapkan data untuk PDF (tanpa QR)
+        $data = [
+            'ticket' => $ticket,
+        ];
+
+        // Generate PDF
+        $pdf = Pdf::loadView('user.tickets.pdf.ticket', $data)
+                ->setPaper('A5', 'landscape');
+
+        // Nama file
+        $filename = 'ticket_' . now()->format('Ymd_His') . '_' . Str::random(5) . '.pdf';
+
+        // Simpan ke folder
+        $saveDir = public_path('uploads/tickets');
+        if (!File::exists($saveDir)) {
+            File::makeDirectory($saveDir, 0755, true);
+        }
+        $pdf->save("{$saveDir}/{$filename}");
+
+        // Update database
+        $ticket_table = TicketModel::find($ticket->ticket_id);
+
+        $ticket_table->update([
+            'ticket_redeem' => 1,
+            'ticket_file'   => $filename,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Ticket Redeemed!',
+            'data'    => $ticket,
+        ]);
+    }
+
+    public function history(){
+        return view('user.tickets.history');
+    }
+
+    public function getDataHistory(Request $request){
+        $data = TicketViewModel::where('ticket_user_id', Auth::user()->user_id)->orderBy('ticket_created_at', 'desc')->get();
+        return response()->json([
+            'success' => true,
+            'data' => $data,
+        ], 200);
+    }
+
+    public function download(Request $request)
+    {
+        $ticket = TicketModel::where('ticket_concert_id', $request->concert_id)
+                        ->where('ticket_user_id', $request->user_id)
+                        ->firstOrFail();
+
+        $path = public_path('uploads/tickets/' . $ticket->ticket_file);
+        if (File::exists($path)) {
+            return response()->download($path);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'File not found.'
+            ], 404);
+        }
+    }
+}

@@ -32,7 +32,7 @@ class AuthController extends Controller
             'user_name_last' => $request->user_name_last,
             'user_email' => $request->user_email,
             'user_password' => Hash::make($request->user_password),
-            'user_role' => 1,
+            'user_role' => 2,
             'user_status' => 1,
         ]);
 
@@ -67,7 +67,7 @@ class AuthController extends Controller
                 if (Auth::user()->user_role == 1) {
                     return redirect()->route('admin.dashboard');
                 } else {
-                    // return redirect()->route('user.page');
+                    return redirect()->route('user.dashboard');
                 }
             }
         }

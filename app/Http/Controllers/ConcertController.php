@@ -8,6 +8,7 @@ use App\Models\ConcertModel;
 use File;
 use Carbon\Carbon;
 use Yajra\DataTables\Facades\DataTables;
+use App\Models\View\TicketViewModel;
 
 class ConcertController extends Controller
 {
@@ -126,5 +127,10 @@ class ConcertController extends Controller
         return response()->json([
             'message' => 'Concert Deleted Succesfully',
         ]);
+    }
+
+    public function getDataTicket(Request $request){
+        $data = TicketViewModel::query()->where('ticket_concert_id', $request->concert_id)->orderBy('ticket_created_at', 'desc');
+        return DataTables::of($data)->make(true);
     }
 }

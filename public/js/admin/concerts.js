@@ -16,7 +16,8 @@ function init_table(){
                     return meta.row + meta.settings._iDisplayStart + 1;
                 },
                 orderable: false,
-                searchable: false
+                searchable: false,
+                width:  '5%',
             },
             {
                 data: 'concert_band',
@@ -36,7 +37,8 @@ function init_table(){
                     return moment(data).format('D MMMM YYYY');
                 },
                 orderable: false,
-                searchable: false
+                searchable: false,
+                width: '15%'
             },
             // {
             //     data: 'concert_start',
@@ -78,12 +80,14 @@ function init_table(){
                 data: 'concert_id',
                 name: 'action',
                 render: function (data) {
-                    return `<button class="btn btn-sm btn-primary" title="Detail" onclick="onDetail(${data})"><i class="fa-solid fa-circle-info"></i></button>
+                    return `<button class="btn btn-sm btn-success" title="Tickets" onclick="onTicket(${data})"><i class="fa-solid fa-ticket"></i></button>
+                            <button class="btn btn-sm btn-primary" title="Detail" onclick="onDetail(${data})"><i class="fa-solid fa-circle-info"></i></button>
                             <button class="btn btn-sm btn-warning" title="Edit" onclick="onEdit(${data})"><i class="fa-solid fa-file-pen"></i></button>
                             <button class="btn btn-sm btn-danger" title="Delete" onclick="onDestroy(${data})"><i class="fa-solid fa-trash"></i></button>`;
                 },
                 orderable: false,
-                searchable: false
+                searchable: false,
+                width: '20%',
             }
         ]
     });
@@ -413,4 +417,53 @@ function onDestroy(el){
             });
         }
     });
+}
+
+function onTicket(el){
+    $('#table-ticket').DataTable().destroy();
+    $('#table-ticket').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: URLgetDataTicket,
+            data: function(d) {
+                d.concert_id = el;
+            }
+        },
+        columns: [
+            {
+                data: null,
+                name: 'row_number',
+                render: function (data, type, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1;
+                },
+                orderable: false,
+                searchable: false,
+                width:  '5%',
+            },
+            { data: 'ticket_code', name: 'ticket_code' },
+            {
+                data: 'ticket_redeem',
+                name: 'status',
+                render: function (data, type, row) {
+                    if(data == 0) {
+                        return `<span class="badge bg-primary"> Booked</span>`;
+                    }else{
+                        return `<span class="badge bg-success"> Redeemed</span>`;
+                    }
+                },
+            },
+            {
+                data: 'user_name',
+                name: 'name',
+                render: function (data, type, row) {
+                    return `${data} ${row.user_name_last}`;
+                },
+            },
+            { data: 'user_email', name: 'user_email' },
+            
+        ]
+    });
+
+    $('#modal-detail-ticket').modal('show');
 }
