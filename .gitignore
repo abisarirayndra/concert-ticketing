@@ -17,4 +17,5 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-/public/uploads
+/public/uploads/concert
+/public/uploads/tickets
