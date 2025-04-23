@@ -42,6 +42,10 @@ class ConcertController extends Controller
             $base64 = preg_replace('#^data:image/\w+;base64,#i', '', $base64);
             $binary = base64_decode($base64);
             $imageName = 'banner_' . Carbon::now()->format('YmdHis') . '.jpg';
+            $saveDir = public_path('uploads/concerts');
+            if (!File::exists($saveDir)) {
+                File::makeDirectory($saveDir, 0755, true);
+            }
             File::put(public_path("uploads/concerts/{$imageName}"), $binary);
             $data['concert_banner'] = $imageName;
         }
@@ -69,24 +73,32 @@ class ConcertController extends Controller
             'concert_banner'          => 'nullable', // ini base64 string
         ]);
 
-        $concert = ConcertModel::find($validated['category_id']);
+        $concert = ConcertModel::find($data['concert_id']);
 
-        $data['concert_end_status']       = empty($data['concert_end']) ? 1 : 0;
         $data['concert_remaining_quota']  = $data['concert_quota'];
 
-        if ($request->filled('concert_banner')) {
-            $image = $request->input('concert_banner');
+        if (!isset($data['concert_end']) || !$data['concert_end']) {
+            $data['concert_end'] = null;
+            $data['concert_end_status'] = 1;
+        } else {
+            $data['concert_end_status'] = 0;
+        }
+
+        if (!empty($data['concert_banner'])) {
+            $image = $data['concert_banner'];
             $image = str_replace('data:image/jpeg;base64,', '', $image);
             $image = str_replace(' ', '+', $image);
             $imageName = 'banner_' . Carbon::now()->format('Y-m-d_His') . '.jpg';
             File::put(public_path('uploads/concerts/') . $imageName, base64_decode($image));
-            $request->concert_banner = $imageName;
+            $data['concert_banner'] = $imageName;
             if ($concert->concert_banner && File::exists(public_path('uploads/concerts/') . $concert->concert_banner)) {
                 File::delete(public_path('uploads/concerts/') . $concert->concert_banner);
             }
+        }else{
+            unset($data['concert_banner']);
         }
 
-        $concert->update($request->all());
+        $concert->update($data);
 
         return response()->json([
             'success' => true,

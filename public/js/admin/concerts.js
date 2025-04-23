@@ -167,6 +167,7 @@ $('#toggleFree').on('change', function () {
 
 function onAdd() {
     $('#form-concert')[0].reset();
+    $('#inputConcertId').val('');
     $('#previewBanner').attr('src', '');
     $('#inputConcertCategory').select2({
         theme: 'bootstrap-5',
@@ -256,6 +257,7 @@ function save(){
 }
 
 function onDetail(el) {
+    resetModal();
     $.ajax({
         url: URLread,
         type: 'POST',
@@ -264,7 +266,7 @@ function onDetail(el) {
             _token: csrf
         },
         success: function(response) {
-            resetModal();
+            
             $('#detailConcertBand').val(response.data.concert_band);
             $('#detailConcertDate').val(moment(response.data.concert_date).format('D MMMM YYYY'));
             $('#detailConcertStart').val(moment(response.data.concert_start, 'HH:mm').format('HH:mm'));
@@ -279,7 +281,8 @@ function onDetail(el) {
             $('#detailConcertPrice').val(response.data.concert_price == 0 ? 'Free' : `IDR ${response.data.concert_price}`);
             $('#detailConcertQuota').val(response.data.concert_quota + ' pax');
             $('#detailConcertCategory').val(response.data.category_name);
-            $('#detailConcertBanner').attr('src', asset + '/' + response.data.concert_banner);
+            if(!response.data.concert_banner) $('#detailConcertBanner').attr('src', asset_def);
+            else $('#detailConcertBanner').attr('src', asset + '/' + response.data.concert_banner);
             
             // Tampilkan modal
             $('#modal-detail-concert').modal('show');
@@ -307,6 +310,7 @@ function resetModal() {
 }
 
 function onEdit(el) {
+    $('#inputConcertId').val('');
     $('#inputConcertCategory').select2({
         theme: 'bootstrap-5',
         placeholder: '— Choose —',

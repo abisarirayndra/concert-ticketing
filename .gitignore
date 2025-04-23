@@ -19,3 +19,4 @@ yarn-error.log
 /.vscode
 /public/uploads/concert
 /public/uploads/tickets
+/public/uploads/concerts

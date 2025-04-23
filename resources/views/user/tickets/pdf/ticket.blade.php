@@ -12,7 +12,7 @@
             text-align: center;
         }
         .banner {
-            width: 200px;
+            width: 300px;
             height: auto;
             object-fit: cover;
             margin-bottom: 10px;

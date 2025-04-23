@@ -303,6 +303,7 @@
         const URLread = '{{ route("admin.concert.read") }}';
         const csrf = '{{ csrf_token() }}';
         const asset = '{{ asset("uploads/concerts/")}}';
+        const asset_def = '{{ asset("assets/default_banner.jpg")}}';
         const URLdestroy = '{{ route("admin.concert.destroy") }}';
         const URLgetDataTicket = '{{ route("admin.concert.getdataticket") }}';
         

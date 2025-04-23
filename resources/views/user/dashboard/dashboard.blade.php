@@ -31,7 +31,7 @@
             <div class="card bg-success text-white mb-4">
                 <div class="card-body"><h2 id="others"></h2></div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <small>Other Concert</small>
+                    <small>Unbooked Concert</small>
                 </div>
             </div>
         </div>
