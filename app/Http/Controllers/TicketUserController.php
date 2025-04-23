@@ -20,7 +20,18 @@ class TicketUserController extends Controller
     }
 
     public function getData(Request $request){
-        $data = ConcertViewModel::orderBy('concert_date', 'desc')->get();
+        $data = ConcertViewModel::query()
+                ->when($request->category_id, function ($query, $category_id) {
+                    return $query->where('concert_category_id', $category_id);
+                })
+                ->when($request->start, function ($query, $start) {
+                    return $query->whereDate('concert_date', '>=', $start);
+                })
+                ->when($request->end, function ($query, $end) {
+                    return $query->whereDate('concert_date', '<=', $end);
+                })
+                ->orderBy('concert_date', 'desc')
+                ->get();
         return response()->json([
             'success' => true,
             'data' => $data,
@@ -86,26 +97,21 @@ class TicketUserController extends Controller
             'ticket_user_id'    => $request->user_id,
         ])->firstOrFail();
 
-        // Siapkan data untuk PDF (tanpa QR)
         $data = [
             'ticket' => $ticket,
         ];
 
-        // Generate PDF
         $pdf = Pdf::loadView('user.tickets.pdf.ticket', $data)
                 ->setPaper('A5', 'landscape');
 
-        // Nama file
         $filename = 'ticket_' . now()->format('Ymd_His') . '_' . Str::random(5) . '.pdf';
 
-        // Simpan ke folder
         $saveDir = public_path('uploads/tickets');
         if (!File::exists($saveDir)) {
             File::makeDirectory($saveDir, 0755, true);
         }
         $pdf->save("{$saveDir}/{$filename}");
 
-        // Update database
         $ticket_table = TicketModel::find($ticket->ticket_id);
 
         $ticket_table->update([
@@ -125,7 +131,19 @@ class TicketUserController extends Controller
     }
 
     public function getDataHistory(Request $request){
-        $data = TicketViewModel::where('ticket_user_id', Auth::user()->user_id)->orderBy('ticket_created_at', 'desc')->get();
+        $data = TicketViewModel::query()
+                ->where('ticket_user_id', Auth::user()->user_id)
+                ->when($request->category_id, function ($query, $category_id) {
+                    return $query->where('concert_category_id', $category_id);
+                })
+                ->when($request->start, function ($query, $start) {
+                    return $query->whereDate('concert_date', '>=', $start);
+                })
+                ->when($request->end, function ($query, $end) {
+                    return $query->whereDate('concert_date', '<=', $end);
+                })
+                ->orderBy('ticket_created_at', 'desc')
+                ->get();
         return response()->json([
             'success' => true,
             'data' => $data,

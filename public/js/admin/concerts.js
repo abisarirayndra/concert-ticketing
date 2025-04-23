@@ -2,12 +2,19 @@ $(document).ready(function () {
     init_table();
 });
 
-function init_table(){
+function init_table(category_id = '', start = '', end = ''){
     $('#table-concert').DataTable().destroy();
     $('#table-concert').DataTable({
         processing: true,
         serverSide: true,
-        ajax: URLgetData,
+        ajax: {
+            url: URLgetData,
+            data: function (d) {
+                d.category_id = category_id;
+                d.start_date = start;
+                d.end_date = end;
+            }
+        },
         columns: [
             {
                 data: null,
@@ -466,4 +473,46 @@ function onTicket(el){
     });
 
     $('#modal-detail-ticket').modal('show');
+}
+
+function onFilter(){
+    $('#concertCategory').select2({
+        theme: 'bootstrap-5',
+        placeholder: '— Choose —',
+        allowClear: true,
+        width: '100%',
+        dropdownParent: $('#filterModal'),
+        ajax: {
+            url: URLcategoryList,
+            dataType: 'json',
+            delay: 250,
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        }
+    }).on('select2:open', function () {
+    }).next('.select2-container').find('.select2-selection').addClass('form-control');
+
+    $('#filterModal').modal('show');
+}
+
+function applyFilter(){
+    const start = $('#startDate').val();
+    const end = $('#endDate').val();
+    if(end < start){
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Invalid date.'
+        });
+        return;
+    }
+    const category_id = $('#concertCategory').val();
+
+    init_table(category_id, start, end);
+
+    $('#filterModal').modal('hide');
 }

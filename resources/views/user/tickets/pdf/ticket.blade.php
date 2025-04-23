@@ -40,7 +40,7 @@
         <div class="info">
             <p><strong>Band:</strong> {{ $ticket->concert_band }}</p>
             <p><strong>Code:</strong> {{ $ticket->ticket_code }}</p>
-            <p><strong>Redeemed by User #{{ $ticket->user_name }}</strong></p>
+            <p><strong>Redeemed by User #{{ $ticket->user_name }} {{ $ticket->user_name_last }}</strong></p>
         </div>
     </div>
 </body>

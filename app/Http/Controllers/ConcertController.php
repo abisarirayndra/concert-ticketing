@@ -98,6 +98,17 @@ class ConcertController extends Controller
     public function getData(Request $request){
         if ($request->ajax()) {
             $data = ConcertViewModel::query()->orderBy('concert_date', 'desc');
+            if (!empty($request->category_id)) {
+                $data->where('concert_category_id', $request->category_id);
+            }
+        
+            if (!empty($request->start_date)) {
+                $data->whereDate('concert_date', '>=', $request->start_date);
+            }
+        
+            if (!empty($request->end_date)) {
+                $data->whereDate('concert_date', '<=', $request->end_date);
+            }
             return DataTables::of($data)->make(true);
         }
     }
