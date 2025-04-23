@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\ConcertModel;
 use Carbon\Carbon;
 use App\Models\View\ConcertViewModel;
+use App\Models\View\TicketViewModel;
 
 class DashboardUserController extends Controller
 {
@@ -33,7 +34,7 @@ class DashboardUserController extends Controller
     }
 
     function booked(){
-        $count = TicketModel::where('ticket_user_id', Auth::user()->user_id)->count();
+        $count = TicketViewModel::where('ticket_user_id', Auth::user()->user_id)->count();
         return $count;
     }
 
@@ -42,7 +43,7 @@ class DashboardUserController extends Controller
             'ticket_user_id' => Auth::user()->user_id,
             'ticket_redeem' => 1,
         ];
-        $count = TicketModel::where($where)->count();
+        $count = TicketViewModel::where($where)->count();
         return $count;
     }
 

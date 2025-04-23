@@ -50,7 +50,7 @@ class DashboardController extends Controller
         $table = TicketViewModel::query()->whereBetween('ticket_created_at', [$startDate, $endDate])->orderBy('ticket_created_at', 'desc');
 
         return [
-            'count' => TicketModel::whereBetween('created_at', [$startDate, $endDate])->count(),
+            'count' => TicketViewModel::whereBetween('created_at', [$startDate, $endDate])->count(),
             'data' => DataTables::of($table)->make(true),
         ]; 
     }
