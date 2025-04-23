@@ -59,10 +59,11 @@ class DashboardUserController extends Controller
 
         $startDate = $startOfWeek->format('Y-m-d');
         $endDate = $endOfWeek->format('Y-m-d');
+        $today = Carbon::today();
 
         return [
-            'count' => ConcertModel::whereBetween('concert_date', [$startOfWeek, $endOfWeek])->count(),
-            'data' => ConcertViewModel::whereBetween('concert_date', [$startOfWeek, $endOfWeek])->get(),
+            'count' => ConcertModel::whereBetween('concert_date', [$today, $endOfWeek])->count(),
+            'data' => ConcertViewModel::whereBetween('concert_date', [$today, $endOfWeek])->get(),
         ];
     }
 

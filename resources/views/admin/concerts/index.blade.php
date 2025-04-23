@@ -16,9 +16,14 @@
                   <i class="fas fa-table me-1"></i>
                   List of Concerts
                 </h5>
-                <button class="btn btn-primary" onclick="onAdd()">
-                    <i class="fa-solid fa-square-plus"></i> Add
-                </button>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-success" onclick="onFilter()">
+                        <i class="fa-solid fa-filter"></i> Filter
+                    </button>
+                    <button class="btn btn-primary" onclick="onAdd()">
+                        <i class="fa-solid fa-square-plus"></i> Add
+                    </button>
+                </div>
             </div>
             <div class="card-body">
                 <table id="table-concert">
@@ -249,6 +254,42 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <form id="filterForm">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="filterModalLabel">Filter Concerts</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                    <label for="startDate" class="form-label">Start Date</label>
+                    <input type="date" class="form-control" id="startDate" name="start_date">
+                    </div>
+                    <div class="mb-3">
+                    <label for="endDate" class="form-label">End Date</label>
+                    <input type="date" class="form-control" id="endDate" name="end_date">
+                    </div>
+                    <div class="mb-3">
+                    <label for="concertCategory" class="form-label">Concert Category</label>
+                    <select class="form-select" id="concertCategory" name="category_id">
+                    </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="applyFilter()" class="btn btn-primary">
+                    <i class="fas fa-search"></i> Apply Filter
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancel
+                    </button>
+                </div>
+            </div>
+          </form>
         </div>
     </div>
 
