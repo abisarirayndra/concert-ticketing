@@ -44,16 +44,16 @@
                     <div class="sb-sidenav-menu">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Core</div>
-                            <a class="nav-link" href="index.html">
+                            <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{route('admin.dashboard')}}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                                 Dashboard
                             </a>                          
                             <div class="sb-sidenav-menu-heading">Concert Management</div>
-                            <a class="nav-link" href="{{route('admin.categories')}}">
+                            <a class="nav-link {{ request()->routeIs('admin.categories') ? 'active' : '' }}" href="{{route('admin.categories')}}">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-table-list"></i></div>
                                 Categories
                             </a>
-                            <a class="nav-link" href="{{route('admin.concert')}}">
+                            <a class="nav-link {{ request()->routeIs('admin.concert') ? 'active' : '' }}" href="{{route('admin.concert')}}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                                 Concerts
                             </a>

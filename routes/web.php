@@ -32,6 +32,8 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth', 'role:1'])->group(function () {
     Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/dashboard/getData', [DashboardController::class, 'getData'])->name('admin.dashboard.getdata');
+    Route::get('/admin/dashboard/getDatatable', [DashboardController::class, 'getDatatable'])->name('admin.dashboard.getdatatable');
 
     Route::get('/admin/categories', [CategoryController::class, 'index'])->name('admin.categories');
     Route::post('/admin/categories/save', [CategoryController::class, 'save'])->name('admin.categories.save');
@@ -54,10 +56,12 @@ Route::middleware(['auth', 'role:2'])->group(function () {
     Route::get('/user/dashboard/getData', [DashboardUserController::class, 'getData'])->name('user.dashboard.getdata');
 
     Route::get('/user/tickets', [TicketUserController::class, 'index'])->name('user.tickets');
-    Route::get('/user/tickets/getData', [TicketUserController::class, 'getData'])->name('user.tickets.getdata');
+    Route::post('/user/tickets/getData', [TicketUserController::class, 'getData'])->name('user.tickets.getdata');
     Route::post('/user/tickets/checkTicket', [TicketUserController::class, 'checkTicket'])->name('user.tickets.checkTicket');
     Route::post('/user/tickets/process', [TicketUserController::class, 'process'])->name('user.tickets.process');
     Route::get('/user/tickets/history', [TicketUserController::class, 'history'])->name('user.tickets.history');
-    Route::get('/user/tickets/getDataHistory', [TicketUserController::class, 'getDataHistory'])->name('user.tickets.getdatahistory');
+    Route::post('/user/tickets/getDataHistory', [TicketUserController::class, 'getDataHistory'])->name('user.tickets.getdatahistory');
     Route::post('/user/tickets/download', [TicketUserController::class, 'download'])->name('user.tickets.download');
+
+    Route::get('/user/categories/list', [CategoryController::class, 'list'])->name('user.categories.list');
 });
