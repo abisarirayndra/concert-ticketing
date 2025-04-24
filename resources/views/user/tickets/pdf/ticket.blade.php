@@ -32,6 +32,12 @@
             if (!file_exists($bannerPath)) {
                 $bannerPath = public_path('assets/default_banner.jpg');
             }
+
+            if(!$ticket->concert_end){
+                $end = 'Done';
+            }else{
+                $end = \Carbon\Carbon::parse($ticket->concert_end)->format('H:i');
+            }
         @endphp
 
         <img class="banner" src="{{ $bannerPath }}" alt="Banner">
@@ -40,7 +46,10 @@
         <div class="info">
             <p><strong>Band:</strong> {{ $ticket->concert_band }}</p>
             <p><strong>Code:</strong> {{ $ticket->ticket_code }}</p>
+            <p><strong>Date:</strong> {{ \Carbon\Carbon::parse($ticket->concert_date)->format('d M Y') }}</p>
+            <p><strong>Time:</strong> {{ \Carbon\Carbon::parse($ticket->concert_start)->format('H:i') }} - {{ $end }}</p>
             <p><strong>Redeemed by User #{{ $ticket->user_name }} {{ $ticket->user_name_last }}</strong></p>
+            <p><strong>Booked at #{{ \Carbon\Carbon::parse($ticket->ticket_created_at)->format('d M Y H:i') }}</strong></p>
         </div>
     </div>
 </body>

@@ -113,7 +113,7 @@ class TicketUserController extends Controller
         ];
 
         $pdf = Pdf::loadView('user.tickets.pdf.ticket', $data)
-                ->setPaper('A5', 'landscape');
+                ->setPaper('A5');
 
         $filename = 'ticket_' . now()->format('Ymd_His') . '_' . Str::random(5) . '.pdf';
 

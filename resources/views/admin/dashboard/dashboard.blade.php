@@ -56,6 +56,7 @@
                         <th>Time</th>
                         <th>Location</th>
                         <th>User</th>
+                        <th>Book Date</th>
                     </tr>
                 </thead>
             

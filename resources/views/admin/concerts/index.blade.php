@@ -244,7 +244,7 @@
                                 <th>Code</th>
                                 <th>Status</th>
                                 <th>User</th>
-                                <th>Email</th>
+                                <th>Book Date</th>
                             </tr>
                         </thead>
                     

@@ -471,7 +471,13 @@ function onTicket(el){
                     return `${data} ${row.user_name_last}`;
                 },
             },
-            { data: 'user_email', name: 'user_email' },
+            {
+                data: 'ticket_created_at',
+                name: 'ticket_created_at',
+                render: function (data, type, row) {
+                    return moment(data).format('D MMMM YYYY HH:mm');;
+                },
+            },
             
         ]
     });

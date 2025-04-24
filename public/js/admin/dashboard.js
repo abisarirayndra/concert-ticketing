@@ -82,6 +82,13 @@ function init_table(){
                 orderable: false,
                 searchable: false
             },
+            {
+                data: 'ticket_created_at',
+                name: 'ticket_created_at',
+                render: function (data, type, row) {
+                    return moment(data).format('D MMMM YYYY HH:mm');;
+                },
+            },
         ]
     });
 }
