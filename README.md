@@ -66,7 +66,6 @@ DB_PASSWORD=your_password
   <li>
     <strong>Start the Laravel development server:</strong><br>
     <code>php artisan serve</code><br>
-    Then open <a href="http://localhost:8000" target="_blank" rel="noopener noreferrer">http://localhost:8000</a> in your browser.
   </li>
 
   <li>
