@@ -8,7 +8,7 @@
 </p>
 
 ## Project Documentation
-Link : https://drive.google.com/file/d/1a8Vu1Qs7Iu_mnb_nd8hZOHtFRTVwMxOo/view?usp=drive_link
+Link : https://drive.google.com/file/d/1Dl2jNmg-3wDlITuiWxL_5yA92BAISlgL/view?usp=sharing
 
 ## Project Background
 Link : https://drive.google.com/file/d/18W8NmHIoEHIFC4E6x_p7lMEAeNR7HXya/view?usp=sharing
@@ -57,7 +57,7 @@ DB_PASSWORD=your_password
    <em>⚠️ If the seeder fails (e.g. admin user is not created), you can manually register an admin using the registration form.</em><br>
     Please refer to the documentation for the registration page: <br>
     <a class="cta-btn"
-       href="https://drive.google.com/file/d/1a8Vu1Qs7Iu_mnb_nd8hZOHtFRTVwMxOo/view?usp=sharing"
+       href="https://drive.google.com/file/d/1Dl2jNmg-3wDlITuiWxL_5yA92BAISlgL/view?usp=sharing"
        target="_blank"
        rel="noopener noreferrer">
        Documentation
