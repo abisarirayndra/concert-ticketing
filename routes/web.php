@@ -26,6 +26,8 @@ Route::get('/', function () {
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/do-register', [AuthController::class, 'doRegister'])->name('do-register');
+Route::get('/register-admin', [AuthController::class, 'registerAdmin'])->name('register-admin');
+Route::post('/do-register-admin', [AuthController::class, 'doRegisterAdmin'])->name('do-register-admin');
 Route::post('/email-checking', [AuthController::class, 'emailChecking'])->name('emailChecking');
 Route::post('/do-login', [AuthController::class, 'doLogin'])->name('do-login');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');

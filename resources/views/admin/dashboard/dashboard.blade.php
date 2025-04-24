@@ -49,6 +49,7 @@
                     <tr>
                         <th>No</th>
                         <th>Code</th>
+                        <th>Status</th>
                         <th>Artis/Band</th>
                         <th>Category</th>
                         <th>Date</th>

@@ -23,7 +23,7 @@
             <div class="card bg-warning text-white mb-4">
                 <div class="card-body"><h2 id="tickets"></h2></div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <small>Your Tickets</small>
+                    <small>Your Redeemed Tickets</small>
                 </div>
             </div>
         </div>
@@ -31,7 +31,7 @@
             <div class="card bg-success text-white mb-4">
                 <div class="card-body"><h2 id="others"></h2></div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <small>Unbooked Concert</small>
+                    <small>Available Concert</small>
                 </div>
             </div>
         </div>

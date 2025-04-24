@@ -34,6 +34,17 @@ function init_table(){
 
             },
             { data: 'ticket_code', name: 'ticket_code' },
+            {
+                data: 'ticket_redeem',
+                name: 'status',
+                render: function (data, type, row) {
+                    if(data == 0) {
+                        return `<span class="badge bg-primary"> Booked</span>`;
+                    }else{
+                        return `<span class="badge bg-success"> Redeemed</span>`;
+                    }
+                },
+            },
             { data: 'concert_band', name: 'concert_band', },
             { data: 'category_name', name: 'category_name', },
             {

@@ -48,9 +48,8 @@ class DashboardUserController extends Controller
     }
 
     function others(){
-        $count_concert = ConcertModel::count();
         $count = $this->booked();
-        $total = $count_concert - $count;
+        $total = 5 - $count;
         return $total;
     }
 
@@ -63,8 +62,8 @@ class DashboardUserController extends Controller
         $today = Carbon::today();
 
         return [
-            'count' => ConcertModel::whereBetween('concert_date', [$today, $endOfWeek])->count(),
-            'data' => ConcertViewModel::whereBetween('concert_date', [$today, $endOfWeek])->get(),
+            'count' => ConcertModel::where('concert_remaining_quota', '!=', 0)->whereBetween('concert_date', [$today, $endOfWeek])->count(),
+            'data' => ConcertViewModel::where('concert_remaining_quota', '!=', 0)->whereBetween('concert_date', [$today, $endOfWeek])->get(),
         ];
     }
 

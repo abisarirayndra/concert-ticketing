@@ -54,23 +54,34 @@ class TicketUserController extends Controller
         } else {
             return response()->json([
                 'success' => false,
+                'data' => ConcertModel::find($request->concert_id),
             ]);
         }
     }
 
     public function process(Request $request){
-        if($request->command == "book") $this->book($request);
-        else if($request->command == "redeem") $this->redeem($request);
+        if($request->command == "book") $ops = $this->book($request);
+        else if($request->command == "redeem") $ops = $this->redeem($request);
+        return response()->json($ops);
     }
 
     function book(Request $request){
+        
         $concert = ConcertModel::find($request->concert_id);
         if($concert->concert_remaining_quota == 0){
-            return response()->json([
+            return [
                 'success' => false,
                 'message' => 'Ticket Full Booked!',
-            ], 201);
+            ];
         }else{
+            $count_ticket = TicketViewModel::where('ticket_user_id', Auth::user()->user_id)->count();
+            if($count_ticket == 5){
+                return [
+                    'success' => false,
+                    'message' => 'you have reached the maximum number of ticket orders',
+                ];
+            }
+
             $data_concert['concert_remaining_quota'] = $concert->concert_remaining_quota - 1;
             $concert->update($data_concert);
             
@@ -81,11 +92,11 @@ class TicketUserController extends Controller
     
             $ticket = TicketModel::create($data);
     
-            return response()->json([
+            return [
                 'success' => true,
                 'message' => 'Ticket Booked!',
                 'data' => $ticket,
-            ], 201);
+            ];
         }
         
     }
@@ -119,11 +130,11 @@ class TicketUserController extends Controller
             'ticket_file'   => $filename,
         ]);
 
-        return response()->json([
+        return [
             'success' => true,
             'message' => 'Ticket Redeemed!',
             'data'    => $ticket,
-        ]);
+        ];
     }
 
     public function history(){

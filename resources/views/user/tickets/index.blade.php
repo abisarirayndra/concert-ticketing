@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="container-fluid px-4">
-    <h1 class="mt-4">Tickets</h1>
+    <h1 class="mt-4">Ticket Lists</h1>
     <ol class="breadcrumb mb-3">
         <li class="breadcrumb-item active">Choose your concert, book your tickets now!</li>
     </ol>

@@ -17,8 +17,9 @@ class ConcertController extends Controller
     }
 
     public function save(Request $request){
-        if(isset($request->concert_id)) $this->update($request);
-        else $this->store($request);
+        if(isset($request->concert_id)) $ops = $this->update($request);
+        else $ops = $this->store($request);
+        return response()->json($ops);
     }
 
     public function store(Request $request){
@@ -52,11 +53,11 @@ class ConcertController extends Controller
 
         $concert = ConcertModel::create($data);
 
-        return response()->json([
+        return [
             'success' => true,
             'message' => 'Concert Stored Succesfully!',
             'data' => $concert,
-        ], 201);
+        ];
     }
 
     public function update(Request $request){
@@ -100,11 +101,11 @@ class ConcertController extends Controller
 
         $concert->update($data);
 
-        return response()->json([
+        return [
             'success' => true,
             'message' => 'Concert updated Succesfully!',
             'data' => $concert,
-        ], 200);
+        ];
     }
 
     public function getData(Request $request){

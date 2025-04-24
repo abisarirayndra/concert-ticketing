@@ -54,7 +54,7 @@ function checkTicket(user, concert, callback) {
                         <div class="d-flex justify-content-between align-items-center mt-3">
                             <p class="mb-0 text-muted"><i class="fa-solid fa-circle-check me-1 text-success"></i> Redeemed, check your Ticket!</p>
                             <button class="btn btn-sm btn-outline-success" onclick="onProcess(${concert}, ${user}, 'ticket')">
-                                <i class="fa-solid fa-ticket me-1"></i> Ticket
+                                <i class="fa-solid fa-cloud-arrow-down me-1"></i> Ticket
                             </button>
                         </div>
                     `;
@@ -71,13 +71,17 @@ function checkTicket(user, concert, callback) {
                     `;
                 }
             } else {
-                buttonHtml = `
-                    <div class="d-flex justify-content-end mt-3">
-                        <button class="btn btn-sm btn-outline-primary" onclick="onProcess(${concert}, ${user}, 'book')">
-                            <i class="fa-solid fa-ticket me-1"></i> Book
-                        </button>
-                    </div>
-                `;
+                if(response.data.concert_remaining_quota === 0){
+                    buttonHtml = `<p class="mb-0 text-muted"><i class="fa-solid fa-circle-check me-1 text-danger"></i> Sold Out</p>`;
+                }else{
+                    buttonHtml = `
+                        <div class="d-flex justify-content-end mt-3">
+                            <button class="btn btn-sm btn-outline-primary" onclick="onProcess(${concert}, ${user}, 'book')">
+                                <i class="fa-solid fa-ticket me-1"></i> Book
+                            </button>
+                        </div>
+                    `;
+                }
             }
             callback(buttonHtml);
         }
@@ -214,12 +218,20 @@ function onProcess(concert, user, command){
                     success(response) {
                         $('#card-wrapper').empty();
                         init_cards();
-            
-                        Swal.fire({
-                            icon: 'success',
-                            title: command+'ed!',
-                            text: response.message,
-                        });
+                        if(response.success){
+                            Swal.fire({
+                                icon: 'success',
+                                title: command+'ed!',
+                                text: response.message,
+                            });
+                        }else{
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Abort!',
+                                text: response.message,
+                            });
+                        }
+                        
                     },
                     error(xhr) {
                         // Tampilkan error pertama
