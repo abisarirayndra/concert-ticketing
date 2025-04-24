@@ -76,7 +76,7 @@
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
 
-      <a class="cta-btn" href="https://drive.google.com/file/d/1a8Vu1Qs7Iu_mnb_nd8hZOHtFRTVwMxOo/view?usp=sharing"  target="_blank">Documentation</a>
+      <a class="cta-btn" href="https://drive.google.com/file/d/1Dl2jNmg-3wDlITuiWxL_5yA92BAISlgL/view?usp=sharing"  target="_blank">Documentation</a>
 
     </div>
   </header>
