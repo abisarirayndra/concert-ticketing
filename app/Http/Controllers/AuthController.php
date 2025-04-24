@@ -20,6 +20,10 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
+    public function registerAdmin(){
+        return view('auth.register-admin');
+    }
+
     public function doRegister(Request $request){
         $validator = Validator::make($request->all(), [
             'user_email' => 'required|unique:user',
@@ -33,6 +37,26 @@ class AuthController extends Controller
             'user_email' => $request->user_email,
             'user_password' => Hash::make($request->user_password),
             'user_role' => 2,
+            'user_status' => 1,
+        ]);
+
+        Alert::success('Data Berhasil Tersimpan','success');
+        return redirect()->route('login');
+    }
+
+    public function doRegisterAdmin(Request $request){
+        $validator = Validator::make($request->all(), [
+            'user_email' => 'required|unique:user',
+        ],[
+            'user_email.user' => 'Email sudah terdaftar, daftar dengan email lain!',
+        ]);
+
+        $userCreate = UserModel::create([
+            'user_name' => $request->user_name,
+            'user_name_last' => $request->user_name_last,
+            'user_email' => $request->user_email,
+            'user_password' => Hash::make($request->user_password),
+            'user_role' => 1,
             'user_status' => 1,
         ]);
 
